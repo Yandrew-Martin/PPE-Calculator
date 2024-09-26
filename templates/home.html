@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PPE Calculators</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
+
+    <link rel= "stylesheet" type= "text/css" href= "/static/css/styles.css">
+
+</head>
+
+<!--
+<img src="/static/images/FDAlogo.png" style="float: left;" height="100"/>
+<img src="/static/images/FDAgraphic.png" style="float: right;"  height="100"/>
+<br clear="all" />
+-->
+
+<header>
+  <h1 style="text-align:center">PPE Risk Calculator: Mask Performance</h1>
+</header>
+
+<body>
+
+<p>
+The PPE Risk Calculators are a collection of modules to facilitate the use of statistically-based and computationally-based models to estimate PPE performance. These models fall under the category of
+Regulatory Science Tools (RSTs).  Please click on the information icon for more details about each category.
+
+
+<h2> RST qualified modules <button type=button class="Info_btn" data-toggle="modal" data-target="#RSTModal">&#9432;</button> </h2>
+
+&#x2022; <a href="/PPERisk/Masks"> Mask Performance Risk Calculator </a>
+
+<p>
+A tool to conduct screening level risk assessment of surgical respirators and surgical masks to aid in the performance evaluation of
+textile materials used in the construction of surgical respirators and surgical masks. These assessments can assist PPE manufacturers by providing
+instantaneous feedback on whether their textile materials would require additional justification and/or testing to demonstrate acceptable performance.
+</p>
+
+&#x2022; <a href="/PPERisk/Gowns"> Gown Performance Risk Calculator </a>
+
+<p>
+This module can be used similarly to the mask performance risk calculator, but this module uses data measurements from textile materials used in gowns
+as well as providing a different performance metric since gown performance is based on liquid and/or bacterial penetration.
+</p>
+
+
+<!--
+<h2> Modules in development <button type=button class="Info_btn" data-toggle="modal" data-target="#DevModal">&#9432;</button> </h2>-->
+
+<!--<h2> Future modules <button type=button class="Info_btn" data-toggle="modal" data-target="#FutureModal">&#9432;</button> </h2>
+
+&#x2022; Updates to exposure model modules to increase the range of applicable systems <br>
+
+&#x2022; New module to address layered materials, e.g. coatings <br>
+
+&#x2022; New module to leverage the results of standard device extraction testing for exposure estimation <br>-->
+
+<!-- Modals -->
+  <div id="MDDTModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Medical Device Development Tools (MDDTs) </h4>
+        </div>
+        <div class="modal-body">
+          <p> The modules in this category have been qualified as Medical Device Development Tools (MDDTs).  This qualification
+          means that the output of the tool will be accepted by the FDA without the need to reconfirm the suitability and
+              utility of the tool, as long as it is used with the qualified context of use.  For more information about MDDTs
+          please follow the link <a href="https://www.fda.gov/medical-devices/medical-device-development-tools-mddt"> here</a>.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+    <div id="RSTModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Regulatory Science Tools (RSTs) </h4>
+        </div>
+        <div class="modal-body">
+          <p> The modules in this category have been qualified as Regulatory Science Tools (RSTs).  RSTs are tools developed by the FDA
+              intended to assist in the design and development of medical devices and test methodologies.  RSTs can be
+              used to support regulatory submissions, but suitability is assessed on a case-by-case basis.  These tools may
+              become MDDTs in the future.  For more information about RSTs
+          please follow the link
+              <a href="https://www.fda.gov/medical-devices/science-and-research-medical-devices/catalog-regulatory-science-tools-help-assess-new-medical-devices
+"> here</a>.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+<div id="DevModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Development modules </h4>
+        </div>
+        <div class="modal-body">
+          <p> The modules in this category are currently under development.  While we intend to submit these tools for RST and/or
+              MDDT qualification in the future, they have not yet been reviewed in any context by the FDA.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+<div id="FutureModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Future modules </h4>
+        </div>
+        <div class="modal-body">
+          <p> We are actively pursuing generation of the evidence base for the modules and updates listed in this category.  Stay tuned
+          for future additions to the CHRIS calculators!</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+</body>
+</html>
