@@ -11,47 +11,22 @@
    <h1 style="text-align:center">PPE Risk Calculator</h1>
 </header>
 <h2 id="context-of-use-cou">Context of Use (COU)</h2>
-<p>The PPE Risk Calculator is intended as a computational modelling tool that will allow manufacturers of PPE to evaluate material penetration relative to mechanical stressors and/or biological material exposure and determine thresholds for material effectiveness. The risk calculator will allow the user to enter material types, porosity, and several other material characteristics along with challenges and variable exposure periods - among several other parameters to assist sponsors and the public with better PPE testing.
+<p>The PPE Risk Calculator is intended as a conservative computational modelling tool that will allow users to evaluate material penetration of viable particles and compare their results to a known n95 respirator. The risk calculator will allow the user to enter mean fiber diameter, mean packing density, and mean thickness to assist sponsors and the public with better PPE testing.
 
-Because the PPE Risk Calculator uses real data that follows current testing standards, the tool can potentially be used to:</p>
+The PPE Risk Calculator tool can potentially be used to:</p>
 <ul>
 <li>Reduce the time to assess PPE textile materials for their performance</li>
-<li>Reduce the cost of assessment by removing testing entirely from the process.</li>
+<li>Reduce the cost of assessment by removing BFE testing entirely from the process.</li>
 <li>Serve as supporting data for a more comprehensive material analysis</li>
 </ul>
 <p>In the absence of adequate PPE material characteristics analysis, a quick material analysis tool is valuable to the stakeholder's time and individual assessments.</p>
+<p>Below is a list of the limitations of use:</p>
 <ul>
-<li>1</li>
-<li>2</li>
-<li>3</li>
-<li>4</li>
-<li>5</li>
-<li>6</li>
-<li>7</li>
-<li>8</li>
-<li>9</li>
-<li>10</li>
-<li>11</li>
-</ul>
-<p>blah blah blah</p>
-<ol type="1">
-<li>a</li>
-<li>b</li>
-<li>c</li>
-<li>d</li>
-</ol>
-<p>blah blah blah</p>
-<section id="footnotes" class="footnotes footnotes-end-of-document"
-role="doc-endnotes">
-<hr />
-<ol>
-<li id="fn1"><p>a</p>
-<ol type="A">
-<li><p>1234</p></li>
-<li><p>2345</p></li>
-</ol>
-<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></li>
-<li id="fn2"><p>Please see the <a href="README.html">instructions</a> for how to use the calculator<a href="#fnref2" class="footnote-back"
-role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section>
+<li>This calculator only requires three material characteristics. Other mechanisms of of protectiveness, such as charge, combinations fiber sizes, or fiber orientations, are not considered but help the product perform better than what is shown in the output.</li>
+<li>This calculator only considers three mechanisms of deposition: diffusion, interception, and impaction. Electrostatic forces, gravitational setting, and several combinations of all the mechanisms are not considered, but, may affect true product performance compared to the tool's output.</li>
+<li>This calculator uses normal distributions for input parameters to perform the monte carlo simulation. Standard deviations that are too large (greater than the mean) will cause inaccuracy.</li>
+<li>This calculator uses uniform distrbutions for particle size ranges. Real world distributions of particle sizes is not accurately represented. </li>
+<li>This calculator only takes into consideration particles sized 0.65um to 10um. Performance for particles outside of this range can not be assessed using this tool.</li>
+<li>This calculator can only provide a conservative output and comparison with respect to the equations used and methods to measure fiber diameter. This calculator is not intended to predict the true performance of your product. </li>
+<li>The reference n95 respirator's fibers were imaged using SEM at 1.41kx to 1.51kx magnification. Fiber diameter was measured using Fiji v1.51w with the plugin DiameterJ. From DiameterJ's output, Superpixel fiber diameter was used in the calculation for mean fiber diameter. Fiber diameter measured using other methods may cause inaccurate output and comparisons to the reference n95.</li>
+<a href='javascript:history.back()'>Back</a>

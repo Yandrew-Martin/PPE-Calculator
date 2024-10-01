@@ -9,29 +9,31 @@
 <header>
    <h1 style="text-align:center">PPE Risk Calculator</h1>
 </header>
-<h2 id="frequently-asked-questions">Frequently asked questions</h2>
-<h3 id="what-is-the-primary-purpose-of-ppe-calculator">What is the primary
+<h2>Frequently asked questions</h2>
+<h3>What is the primary
 purpose of the PPE Risk Calculator?</h3>
-<p>The PPE Risk Calculator is a rapid prediction tool that assists stakeholders with the regulatory assessment of PPE textile materials. It is a computational modelling tool that will allow manufacturers of PPE to evaluate material penetration relative to mechanical stressors and/or biological material exposure and determine thresholds for material effectiveness. The risk calculator will allow the user to enter material types, porosity, and several other material characteristics along with challenges and variable exposure periods - among several other parameters to assist sponsors and the public with better PPE testing. </p>
-<h3 id="how-can-PPE-calculator-be-used-in-a-regulatory-context">How can the PPE Calculator be
+<p>The PPE Risk Calculator is a conservative predictive tool that assists stakeholders with the regulatory assessment of PPE textile materials. It is a computational modelling tool that will allow manufacturers of PPE to evaluate bacterial penetration of viable particles. The risk calculator will allow the user to enter mean fiber diameter, mean packing density, and mean thickness, as well as their standard deviations, to assist sponsors and the public with better PPE testing. </p>
+<h3>How can the PPE Calculator be
 used in a regulatory context?</h3>
-<p>The Risk Calculator can be an option for stakeholders that want to determine material effectiveness without having to spend time and money on testing. The use of this calculator is not required in submissions, however, in regulatory scenarios where a quick risk assessment of a material is required, output from this calculator can be used in lieu of testing. If the output indicates a "pass", the material in question has a low chance of allowing penetration. If the output indicates a "fail", the material has a higher than favorable chance of allowing penetration. This calculator's output can be accompanied with other alternative approaches to provide a more comprehensive view of the material performance.</p>
-<h3 id="does-ppe-calculator-address-material-characteristics">Does the PPE Risk Calculator address all of the material characteristics?</h3>
-<p>No, we currently have data for porosity measurements (pore size, porosity, fiber size) and thickness based on previous experimental data. More characteristics will be added to the computational models when more data is available for analysis.</p>
-<h3 id="how-are-the-risk-calculations-done">How are the risk
-calculations done?</h3>
-<p>The PPE Risk calculator uses computational linear modeling to determine the risk factor of input PPE textile material characteristics. The models are built on data from previous experimentations and accompanied in-house/collaborative experimentation using up to date standards for testing PPE textile materials.</p>
+<p>The Risk Calculator can be an option for stakeholders that want to determine material effectiveness without having to spend time and money on testing. The use of this calculator is not required in submissions, however, in regulatory scenarios where a quick risk assessment of a material is required, this calculator can provide supporting evidence. This calculator's output can be accompanied with other alternative approaches to provide a more comprehensive view of the material performance.</p>
+<h3>Does the PPE Risk Calculator address all of the material characteristics?</h3>
+<p>No, this calculator on takes into consideration fiber diameter, packing density, and thickness. Other parameters that may affect PPE performance are not included as input.</p>
+<h3>How is fiber diameter measured?</h3>
+<p>We suggest measuring fiber diameter using SEM imaging, Fiji/ImageJ, and DiameterJ. Details on how this is done can be found in the Context of Use</p>
 <h3
-id="where-do-the-risk-calculator-values-come-from">Where
-do the risk calculator values come from?</h3>
-<p>The values used for input in the risk calculator come from SEM image analysis of the material in question. Because the data gathered and analysed to make this calculator was based on SEM imaging, it is vital that the users also do the same to ensure accurate results. </p>
-<h3
-id="How-are-the-pores-measured">How are the pores measured?</h3>
-<p>The pores are measured using DiameterJ. SEM images are run through ImageJ, an NIH developed image analysis program, using the DiameterJ plugins. Through DiameterJ, SEM images are subject to segmentation by way of 16 default algorithms and turned into sets of binary images representing the types of algorithms used. The plugin is then used again to analyze these binary images for fiber and pore characteristics which are organized, combined, and statistically analyzed to extract average fiber diameter, average pore size, and porosity of the original SEM image.</p>
-<h3
-id="what-if-i-have-suggestions-for-inclusion-of-additional-cas-or-polymer-matrices-within-chris-or-changes-to-the-user-interface">What
-if I have suggestions for inclusion of additional material characteristics within the PPE Risk Calculator or changes to the user interface?</h3>
+<h3>How is packing density measured?</h3>
+<p>Packing density can be measured by measuring and cutting a square swatch of material, separate the layers, and weigh the mass in grams of the desired layer. With this grammage (g/m^2), you can divide by the product of the density of the fiber material (g/m^3) and the thickness of the material (m).</p>
+<h3>How is thickness measured?</h3>
+<p>Thickness can be measured using calipers, fabric thickness testing machines, or carefully taken cross-sectional SEM images that are analyzed using Fiji/ImageJ.</p>
+<h3>I have fiber diameter measurements using methods other than SEM and DiameterJ, can I use them in the calculator?</h3>
+<p>Yes, you may use those measurements; the equations used are physics-based. However, for an accurate comparison of log10 reduction values to the reference n95, we advise using SEM. Please see the Context of Use to view the limitations if this tool.</p>
+<h3>The graph shows green/red violin plots, what does it mean?</h3>
+<p>The output per stage of the monte carlo simulation using the users input is subject to a one-tailed T-test to determine if the mean is significantly less than our reference n95 output per stage. If it is significantly less (p<0.05), then the plot is red, else if the output is not siginificantly less than the reference, the plot is green.</p>
+<h3>My violin plot looks almost identical to the reference but is red, how?</h3>
+<p>The T-test takes into consideration 10,000 samples of each, therefore producing a very small margin of error.</p>
+<h3>What if I have suggestions for inclusion of additional material characteristics within the PPE Risk Calculator or changes to the user interface?</h3>
 <p>If you have a suggestion to expand the applicability of the tool or
 improve the user interface, please contact Andrew Martin: <a
 href="mailto:andrew.martin@fda.hhs.gov"
 class="email">andrew.martin@fda.hhs.gov</a>.</p>
+<a href='javascript:history.back()'>Back</a>

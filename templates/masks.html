@@ -18,8 +18,8 @@
 </header>
 
 <p> For details on how to use the PPE Risk Calculators, please click the information icons next to each section header and read the
-  <a href="/PPERisk/COU"> Context of Use (CoU)</a>, which includes limitations of use. Answers to frequently asked questions can be
-  found <a href="/PPERisk/FAQ"> here</a>. For a history of updates, please see the <a href="/PPERisk/Changelog"> changelog</a>. </p>
+  <a href="/COU"> Context of Use (CoU)</a>, which includes limitations of use. Answers to frequently asked questions can be
+  found <a href="/FAQ"> here</a>. </p>
 
 <body>
 
@@ -43,13 +43,9 @@
         <h4 class="modal-title">Material Characteristics</h4>
       </div>
       <div class="modal-body">
-        <p><em>Mean Fiber Diameter Size</em> - Please enter the mean fiber diameter for your material fabric in microns (µm) as reported by DiameterJ's summary file. If the measurement is not in microns, please convert your input into microns prior to using the calculator.</p>
-        <p><em>Packing Density</em> - Enter the packing density of your material fabric.</p>
-        <p><em>Thickness</em> - Enter the thickness of your material fabric in microns (µm).</p>
-        <p><em>*Coming Soon*</em><br>
-        <em>Stress</em><br>
-        <em>Fiber Thickness</em><br>
-        <em>Soil Exposure</em></p>
+        <p><em>Mean Fiber Diameter Size</em> - Please enter the mean fiber diameter for your material fabric in microns (µm) as reported by DiameterJ's Super Pixel output. If the measurement is not in microns, please convert your input into microns prior to using the calculator.</p>
+        <p><em>Mean Packing Density</em> - Enter the packing density of your material fabric.</p>
+        <p><em>Mean Thickness</em> - Enter the thickness of your material fabric in microns (µm).</p>
 
       </div>
       <div class="modal-footer">
@@ -60,65 +56,6 @@
   </div>
 </div>
 
-
-<!-- Decontamination input section -->
-
-<!--<h3> Decontamination <button type=button class="Info_btn" data-toggle="modal" data-target="#DeconModal">&#9432;</button> </h3>-->
-
-<!--  Method:-->
-<!--  <input type="radio" name="method" id="Untreated" value="untreated" checked > untreated-->
-<!--  <input type="radio" name="method" id="VHP" value="vhp" > vhp-->
-<!--  <input type="radio" name="method" id="Ozone" value="ozone" > ozone <br>-->
-<!--  Runs:-->
-<!--  <input name="runs" id="runs" step="1" value="0" min="0" max="7" type="number" required><br>-->
-<!--  Microbial Target:-->
-<!--  <input type="radio" name="microbial" id="Saureus" value="saureus" checked > saureus-->
-<!--  <input type="radio" name="microbial" id="Ecoli" value="ecoli" > ecoli-->
-<!--  <input type="radio" name="microbial" id="Phix174" value="phix174" > phix174-->
-
-
-<!-- Modal -->
-<!--<div id="DeconModal" class="modal fade" role="dialog">-->
-<!--  <div class="modal-dialog">-->
-
-    <!-- Modal content-->
-<!--    <div class="modal-content">-->
-<!--      <div class="modal-header">-->
-<!--        <h4 class="modal-title">Device characteristics</h4>-->
-<!--      </div>-->
-<!--      <div class="modal-body">-->
-<!--        <p><em>Method</em> - Select the decontamination used - if no decontamination was used, please select "Untreated." Each method of decontamination can be found <a href="PLACEMENT">here</a></p>-->
-<!--        <p><em>Runs</em> - The number of decontamination runs on the PPE material. If no runs were made, please select Untreated or enter "0"</p>-->
-<!--        <p><em>Microbial Target</em> - Selection of the microbe determines the final output of the calculator as each microbe has different properties and therefore are filtered at different efficiencies</p>-->
-<!--      </div>-->
-<!--      <div class="modal-footer">-->
-<!--        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-<!--      </div>-->
-<!--    </div>-->
-
-<!--  </div>-->
-<!--</div>-->
-
-<!-- Assumptions input section -->
-
-<!--  <h3> Assumptions <button type=button class="Info_btn" data-toggle="modal" data-target="#AssumeModal">&#9432;</button> </h3>-->
-<!--  Check all statements below that are applicable to your PPE Material analysis:<br><br>-->
-<!--  <input type="checkbox" id="assume1" name="assume1" > SEM imaging was used to take pictures of the filter layer with enough magnification to see fibers <br>-->
-<!--  <input type="checkbox" id="assume2" name="assume2" > SEM image analysis was conducted using Fiji 1.51w <br>-->
-<!--  <input type="checkbox" id="assume3" name="assume3" > DiameterJ Segment and DiameterJ 1-018 were used for segmentation and pore size analysis, respectively. <br>-->
-<!--  <input type="checkbox" id="assume4" name="assume4" > Thickness was measured according to ASTM D5729-97 <br>-->
-
-
-  <!-- Modal -->
-<!--<div id="AssumeModal" class="modal fade" role="dialog">-->
-<!--  <div class="modal-dialog">-->
-
-    <!-- Modal content-->
-<!--    <div class="modal-content">-->
-<!--      <div class="modal-header">-->
-<!--        <h4 class="modal-title">Assumptions</h4>-->
-<!--      </div>-->
-<!--      <div class="modal-body">-->
 <!--        <p>:</p>-->
 <!--        <p><em>SEM Imaging - </em>  In order to obtain the fiber sizes we used for validation, SEM imaging of the filter layer with a magnification between 1.4kx and 1.5kx were taken and subject to analysis using Fiji and the DiamaterJ plugin </p>-->
 <!--        <p><em>Fiji 1.51w - </em> Fiji is a version of ImageJ - an NIH developed image processing program - and to maintain accuracy and reproducibility, please use the version of Fiji (1.51w) that was used to analyze SEM images of the PPE material</p>-->
@@ -142,7 +79,7 @@ Click to screen your PPE material: <button type="submit" name="submit_button">Es
 <p><b><font size = '4'>See how your material compares with an n95 respirator in the violin plots below</font></b><br/>
 <a href='https://www.labxchange.org/library/items/lb:LabXchange:46f64d7a:html:1'>How To Interpret Violin Plots</a>
 <br/>
-<img src="https://amartin.pythonanywhere.com/static/graph.png">
+<img src="https://PPECalculator.pythonanywhere.com/static/graph.png">
 </p>
 <p><b><font size = '4'>Here are your material inputs</font></b>
 {{ result | safe }}</p>
@@ -152,10 +89,6 @@ Click to screen your PPE material: <button type="submit" name="submit_button">Es
 {{ result4 | safe }}</p>
 <p><b><font size = '4'>Percentiles of normalized log<sub>10</sub> reduction values at each particle size range</font></b>
 {{ result2 | safe }}</p>
-
-<!-- <p id="TestingOutput"> </p> -->
-
-
 
 </body>
 </html>

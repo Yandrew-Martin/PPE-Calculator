@@ -1,7 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for
-#import joblib
+from flask import Flask, render_template, request
 import pandas as pd
-#from sklearn.ensemble import RandomForestRegressor
 import numpy as np
 from statistics import mean
 import seaborn
@@ -9,20 +7,20 @@ from matplotlib.lines import Line2D
 from matplotlib.colors import to_rgba
 from matplotlib.patches import Patch
 
-respiratordf = pd.read_pickle('./r4normlogresults.pkl')
+respiratordf = pd.read_pickle('r4normlogresults.pkl')
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
 
-@app.route('/')
-def home():
-    return render_template('home.html')
+#@app.route('/')
+#def home():
+#    return render_template('home.html')
 
-@app.route('/PPERisk/Masks')
+@app.route('/')
 def masks():
     return render_template('masks.html')
 
-@app.route('/PPERisk/Masks', methods=['POST'])
+@app.route('/', methods=['POST'])
 def maskcalc():
 
     if request.method == 'POST':
@@ -30,53 +28,27 @@ def maskcalc():
         dfsd = request.form.get("dfsd",type=float)
         thick = request.form.get("thick",type=float)
         thicksd = request.form.get("thicksd",type=float)
+        #packing density
         z = request.form.get("packingdensity",type=float)
         zsd = request.form.get("packingdensitysd",type=float)
 
+        #user input, percentiles, mechanisms, OFE, output for graph
         result1, result2, result3, result4, result5 = monte_carlo(df,dfsd,z,zsd,thick,thicksd)
+        #make tables
         printresults = printResults(result1)
         printresults2 = printResults(result2)
         printresults3 = printResults(result3)
         printresults4 = printResults(result4)
-        #graph = makeGraph(result2)
         makeGraph(result5, respiratordf)
-    #    result2 = [df,dfsd,z,zsd,thick,thicksd]
         return render_template('masks.html',result=printresults, result2=printresults2, result3=printresults3, result4=printresults4)#, graph=graph)
 
-@app.route('/PPERisk/Gowns')
-def gowns():
-    return render_template('gowns.html')
-
-@app.route('/PPERisk/Gowns', methods=['GET','POST'])
-def gowncalc():
-#    method = request.form.get("method")
-#    microbial = request.form.get("microbial")
-    if request.method == 'POST':
-#        mfp = request.form["mfp"]
-        thick = request.form["thick"]
-        weight = request.form["weight"]
-        air = request.form["air"]
-#        runs = request.form['runs']
-#        method = request.form.get("method")
-#        fluid = request.form.get("fluid")
-#        if 'submit_button' in request.form:
-#            method = request.form["method"]
-#            microbial = request.form.get["microbial"]
-#        contactAngle = rfDist.predict([[thick, weight, air]])
-#        return render_template('gowns.html',CA=contactAngle)
-
-@app.route('/PPERisk/COU')
+@app.route('/COU')
 def cou():
     return render_template('COU.html')
 
-@app.route('/PPERisk/FAQ')
+@app.route('/FAQ')
 def faq():
     return render_template('FAQ.html')
-
-@app.route('/PPERisk/Changelog')
-def change():
-    return render_template('Changelog.html')
-#@app.route('/PPERisk/Publications')
 
 from scipy.stats import truncnorm, ttest_ind
 from scipy.special import cbrt
@@ -136,6 +108,7 @@ def monte_carlo(df, dfsd, z, zsd, L, Lsd):
     a2, b2 = (a_var2 - loc2) / scale2, (b_var2 - loc2) / scale2
     a3, b3 = (a_var3 - loc3) / scale3, (b_var3 - loc3) / scale3
 
+    #truncnorm distributions
     var1_values = pd.Series(truncnorm.rvs(a=a1, b=b1, loc=loc1, scale=scale1, size=10000))
     var2_values = pd.Series(truncnorm.rvs(a=a2, b=b2, loc=loc2, scale=scale2, size=10000))
     var3_values = pd.Series(truncnorm.rvs(a=a3, b=b3, loc=loc3, scale=scale3, size=10000))
@@ -148,7 +121,7 @@ def monte_carlo(df, dfsd, z, zsd, L, Lsd):
     var4_values_stage5 = np.random.uniform(1.1, 2.2, size=num_simulations)
     var4_values_stage6 = np.random.uniform(0.65, 1.1, size=num_simulations)
 
-    #calculations
+    #calculations at each stage for each mechanism and total
     results_stage1,int1,imp1,dif1,intdif1 = calculate_H24(var1_values, var4_values_stage1, var2_values, var3_values)
     results_stage2,int2,imp2,dif2,intdif2 = calculate_H24(var1_values, var4_values_stage2, var2_values, var3_values)
     results_stage3,int3,imp3,dif3,intdif3 = calculate_H24(var1_values, var4_values_stage3, var2_values, var3_values)
@@ -160,12 +133,14 @@ def monte_carlo(df, dfsd, z, zsd, L, Lsd):
     diffusion_total = str(round(100*mean((mean(np.minimum((dif1/100),1-(1/5080))),mean(np.minimum((dif2/100),1-(1/5080))),mean(np.minimum((dif3/100),1-(1/4820))),mean(np.minimum((dif4/100),1-(1/6740))),mean(np.minimum((dif5/100),1-(1/9596))),mean(np.minimum((dif6/100),1-(1/26824))))),2)) + "%"
     interception_diffusion_total = str(round(100*mean((mean(np.minimum((intdif1/100),1-(1/5080))),mean(np.minimum((intdif2/100),1-(1/5080))),mean(np.minimum((intdif3/100),1-(1/4820))),mean(np.minimum((intdif4/100),1-(1/6740))),mean(np.minimum((intdif5/100),1-(1/9596))),mean(np.minimum((intdif6/100),1-(1/26824))))),2)) + "%"
     total_total = str(round(100*mean((mean(np.minimum((results_stage1/100),1-(1/5080))),mean(np.minimum((results_stage2/100),1-(1/5080))),mean(np.minimum((results_stage3/100),1-(1/4820))),mean(np.minimum((results_stage4/100),1-(1/6740))),mean(np.minimum((results_stage5/100),1-(1/9596))),mean(np.minimum((results_stage6/100),1-(1/26824))))),2)) + "%"
+    #log calculations
     logresults_stage1 = logresults_stage(results_stage1, 5080)
     logresults_stage2 = logresults_stage(results_stage2, 4820)
     logresults_stage3 = logresults_stage(results_stage3, 6740)
     logresults_stage4 = logresults_stage(results_stage4, 9596)
     logresults_stage5 = logresults_stage(results_stage5, 19886)
     logresults_stage6 = logresults_stage(results_stage6, 26824)
+    #normalized by dividing by the -log10 of the limit of detection
     normalizedlog_stage1 = logresults_stage1 / -np.log10(1 / 5080)
     normalizedlog_stage2 = logresults_stage2 / -np.log10(1 / 4820)
     normalizedlog_stage3 = logresults_stage3 / -np.log10(1 / 6740)
@@ -231,6 +206,7 @@ def monte_carlo(df, dfsd, z, zsd, L, Lsd):
         }
     return results1, results2, results3, results4, results5
 
+#returns log10 reduction
 def logresults_stage(percentile, control):
     return -np.log10(np.maximum(1 - (percentile / 100), 1 / control))
 
@@ -265,24 +241,32 @@ def makeGraph(results, respirator):
     #lemonchiffon
     user_facecolor = np.array([0.9754901960784312, 0.9607843137254901, 0.8284313725490198, 1.0])
 
+    #parameters for next for loop
     count=0
     plotcount=0
     sigcount=0
     linecount=0
 
+    #my way of only turning the median lines red. must be used because when the violin plot is a flat line, it counts as one line object for one plot; however, when the violin plot exists, there are three line objects for one plot. This changes depending on how many stages are at 100% log10 reduction.
+    #the list of line2D objects also includes the reference plot lines, so i created this counting for loop to keep track of true median lines.
     for l in ax.lines:
+        #when the plot is generated and has three lines. middle is median
         if l.get_linestyle()=='--':
             count+=1
             if count%3==2:
                 l.set_color('red')
                 plotcount+=1
                 linecount+=1
+        #when the plot is just a line
         if l.get_linestyle()=='-':
             plotcount+=1
+        #counts each plot pair; value is used for t test
         if plotcount==2:
             sigcount+=1
             plotcount=0
+        #check if we are observing the user side of the plot to change the facecolor to red or green
         facecolor = ax.collections[linecount-1].get_facecolor()
+        #t-test to determine face color of the violin plot
         if np.array_equal(facecolor[0],user_facecolor):
             t_stat, p_value = ttest_ind(df1['y'][sigcount], df2['y'][sigcount], alternative='less')
             alpha = 0.05
@@ -291,53 +275,12 @@ def makeGraph(results, respirator):
             else:
                 ax.collections[linecount-1].set_facecolor(to_rgba('darkseagreen',alpha=0.5))
     plt.tight_layout()
-    fig.savefig('mysite/static/graph.png', dpi=150)
+    fig.savefig('pythonanywhere/static/graph.png', dpi=150)
 
 def printResults(results):
-    # stage1 = results['stage1']
-    # stage2 = results['stage2']
-    # stage3 = results['stage3']
-    # stage4 = results['stage4']
-    # stage5 = results['stage5']
-    # stage6 = results['stage6']
-    # printresults = f"""
-    # Stage 1: {stage1}\n
-    # Stage 2: {stage2}\n
-    # Stage 3: {stage3}\n
-    # Stage 4: {stage4}\n
-    # Stage 5: {stage5}\n
-    # Stage 6: {stage6}
-    # """
     df = pd.DataFrame(results)
     html_table = df.to_html(index=False, justify="center")
     return html_table
 
-#def publications():
-#    return render_template('Publications.html')
-"""
-@app.route('/PPERisk/Publications', methods=['GET','POST'])
-def submission():
-#    if request.method == 'POST':
-#        author = request.form["author"]
-#        title = request.form["title"]
-#        journal = request.form['journal']
-#        url = request.form["url"]
-#        date = "test"
-#        submission = Submission(author=author, title=title, journal=journal,url=url,date=date)
-#        db.session.add(submission)
-#        db.session.commit()
-    if request.method == "GET":
-        return render_template('Publications.html', publications=Submission.query.all())
-    pubauthor = request.form["author"]
-    pubtitle = request.form["title"]
-    pubjournal = request.form['journal']
-    puburl = request.form["url"]
-    subdate = "test"
-    submission = Submission(author=pubauthor, title=pubtitle, journal=pubjournal,url=puburl,submission=subdate)
-    db.session.add(submission)
-    db.session.commit()
-    return redirect(url_for('submission'))
-@app.route('/PPERisk/Table')
-def table():
-    return render_template('Table.html')
-"""
+if __name__ == '__main__':
+    app.run()
