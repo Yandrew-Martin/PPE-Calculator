@@ -10,7 +10,7 @@ from matplotlib.patches import Patch
 respiratordf = pd.read_pickle('r4normlogresults.pkl')
 
 app = Flask(__name__)
-app.config["DEBUG"] = True
+app.config["DEBUG"] = False
 
 #@app.route('/')
 #def home():
