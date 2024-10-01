@@ -199,7 +199,7 @@ def monte_carlo(df, dfsd, z, zsd, L, Lsd):
         "diffusion interception":[interception_diffusion_total]
         }
     results4 = {
-        "overall filter efficiency":[total_total]
+        "Overall Filter Efficiency":[total_total]
         }
     results5 = {
         "y":[normalizedlog_stage1,normalizedlog_stage2,normalizedlog_stage3,normalizedlog_stage4,normalizedlog_stage5,normalizedlog_stage6],
