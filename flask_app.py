@@ -7,6 +7,7 @@ from matplotlib.lines import Line2D
 from matplotlib.colors import to_rgba
 from matplotlib.patches import Patch
 
+
 respiratordf = pd.read_pickle('r4normlogresults.pkl')
 
 app = Flask(__name__)
@@ -212,6 +213,8 @@ def logresults_stage(percentile, control):
 
 import matplotlib.pyplot as plt
 
+plt.switch_backend('Agg')
+
 def makeGraph(results, respirator):
     fig, ax = plt.subplots(figsize=(8,4))
 
@@ -275,7 +278,7 @@ def makeGraph(results, respirator):
             else:
                 ax.collections[linecount-1].set_facecolor(to_rgba('darkseagreen',alpha=0.5))
     plt.tight_layout()
-    fig.savefig('pythonanywhere/static/graph.png', dpi=150)
+    fig.savefig('static/graph.png', dpi=150)
 
 def printResults(results):
     df = pd.DataFrame(results)
