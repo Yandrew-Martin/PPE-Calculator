@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import pandas as pd
 import numpy as np
 from statistics import mean
@@ -6,9 +6,10 @@ import seaborn
 from matplotlib.lines import Line2D
 from matplotlib.colors import to_rgba
 from matplotlib.patches import Patch
+import io
+import base64
 
-
-respiratordf = pd.read_pickle('r4normlogresults.pkl')
+respiratordf = pd.read_csv('respiratordf.csv')
 
 app = Flask(__name__)
 app.config["DEBUG"] = False
@@ -36,18 +37,25 @@ def maskcalc():
         #user input, percentiles, mechanisms, OFE, output for graph
         result1, result2, result3, result4, result5 = monte_carlo(df,dfsd,z,zsd,thick,thicksd)
         #make tables
-        printresults = printResults(result1)
+        #printresults = printResults(result1)
         printresults2 = printResults(result2)
         printresults3 = printResults(result3)
         printresults4 = printResults(result4)
-        makeGraph(result5, respiratordf)
-        return render_template('masks.html',result=printresults, result2=printresults2, result3=printresults3, result4=printresults4)#, graph=graph)
+        img_str = makeGraph(result5, respiratordf)
 
-@app.route('/COU')
+        return jsonify({
+            #'result': printresults,
+            'result2': printresults2,
+            'result3': printresults3,
+            'result4': printresults4,
+            'graph': img_str
+        })
+
+@app.route('/PPERisk/COU')
 def cou():
     return render_template('COU.html')
 
-@app.route('/FAQ')
+@app.route('/PPERisk/FAQ')
 def faq():
     return render_template('FAQ.html')
 
@@ -199,7 +207,7 @@ def monte_carlo(df, dfsd, z, zsd, L, Lsd):
         "diffusion interception":[interception_diffusion_total]
         }
     results4 = {
-        "Overall Filter Efficiency":[total_total]
+        "overall filter efficiency":[total_total]
         }
     results5 = {
         "y":[normalizedlog_stage1,normalizedlog_stage2,normalizedlog_stage3,normalizedlog_stage4,normalizedlog_stage5,normalizedlog_stage6],
@@ -213,12 +221,12 @@ def logresults_stage(percentile, control):
 
 import matplotlib.pyplot as plt
 
-plt.switch_backend('Agg')
-
 def makeGraph(results, respirator):
     fig, ax = plt.subplots(figsize=(8,4))
 
     df1 = pd.DataFrame(results)
+    df1 = df1.explode('y')
+    df1['y'] = df1['y'].astype('float')
     df1['id'] = "Your material"
     df2 = respirator
     df2['id'] = "n95 model reference"
@@ -271,19 +279,24 @@ def makeGraph(results, respirator):
         facecolor = ax.collections[linecount-1].get_facecolor()
         #t-test to determine face color of the violin plot
         if np.array_equal(facecolor[0],user_facecolor):
-            t_stat, p_value = ttest_ind(df1['y'][sigcount], df2['y'][sigcount], alternative='less')
+            t_stat, p_value = ttest_ind(df1['y'][df1['x'] == df3['x'].unique()[sigcount]], df2['y'][df2['x'] == df3['x'].unique()[sigcount]], alternative='less')
             alpha = 0.05
             if p_value < alpha:
                 ax.collections[linecount-1].set_facecolor(to_rgba('lightcoral',alpha=0.5))
             else:
                 ax.collections[linecount-1].set_facecolor(to_rgba('darkseagreen',alpha=0.5))
     plt.tight_layout()
-    fig.savefig('static/graph.png', dpi=150)
+    buf = io.BytesIO()
+    fig.savefig(buf, format='png')
+    buf.seek(0)
+    img_str = base64.b64encode(buf.read()).decode('utf-8')
+    plt.close(fig)
+    return img_str
 
 def printResults(results):
     df = pd.DataFrame(results)
     html_table = df.to_html(index=False, justify="center")
     return html_table
-
+    
 if __name__ == '__main__':
     app.run()
