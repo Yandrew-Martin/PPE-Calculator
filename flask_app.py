@@ -9,7 +9,8 @@ from matplotlib.patches import Patch
 import io
 import base64
 
-respiratordf = pd.read_csv('respiratordf.csv')
+#pythonanywhere is the directory name for my test environment - replace with correct directory name
+respiratordf = pd.read_csv('pythonanywhere/respiratordf.csv')
 
 app = Flask(__name__)
 app.config["DEBUG"] = False
