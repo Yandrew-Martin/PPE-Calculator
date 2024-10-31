@@ -6,11 +6,19 @@ import seaborn
 from matplotlib.lines import Line2D
 from matplotlib.colors import to_rgba
 from matplotlib.patches import Patch
+import matplotlib
+from numpy.core.numeric import array_equal
+from sqlalchemy.dialects.postgresql import array
+
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 import io
 import base64
+from scipy.stats import truncnorm, ttest_ind, mannwhitneyu
+from scipy.special import cbrt
 
 #pythonanywhere is the directory name for my test environment - replace with correct directory name
-respiratordf = pd.read_csv('pythonanywhere/respiratordf.csv')
+respiratordf = pd.read_csv('respiratordf.csv')
 
 app = Flask(__name__)
 app.config["DEBUG"] = False
@@ -59,9 +67,6 @@ def cou():
 @app.route('/PPERisk/FAQ')
 def faq():
     return render_template('FAQ.html')
-
-from scipy.stats import truncnorm, ttest_ind
-from scipy.special import cbrt
 
 def calculate_H24(df, dp, z, L):
     B1 = df
@@ -220,9 +225,8 @@ def monte_carlo(df, dfsd, z, zsd, L, Lsd):
 def logresults_stage(percentile, control):
     return -np.log10(np.maximum(1 - (percentile / 100), 1 / control))
 
-import matplotlib.pyplot as plt
-
 def makeGraph(results, respirator):
+
     fig, ax = plt.subplots(figsize=(8,4))
 
     df1 = pd.DataFrame(results)
@@ -280,7 +284,10 @@ def makeGraph(results, respirator):
         facecolor = ax.collections[linecount-1].get_facecolor()
         #t-test to determine face color of the violin plot
         if np.array_equal(facecolor[0],user_facecolor):
-            t_stat, p_value = ttest_ind(df1['y'][df1['x'] == df3['x'].unique()[sigcount]], df2['y'][df2['x'] == df3['x'].unique()[sigcount]], alternative='less')
+            a = df1['y'][df1['x'] == df3['x'].unique()[sigcount]]
+            b = df2['y'][df2['x'] == df3['x'].unique()[sigcount]]
+
+            t_stat, p_value = mannwhitneyu(a, b, alternative='less')
             alpha = 0.05
             if p_value < alpha:
                 ax.collections[linecount-1].set_facecolor(to_rgba('lightcoral',alpha=0.5))
