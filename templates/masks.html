@@ -38,12 +38,10 @@
 </head>
 
 <header>
-  <h1 style="text-align:center">PPE Risk Calculator: Respirator Performance</h1>
+  <h1 style="text-align:center">Respirator Filtration Efficiency Calculator v1.0 <script> document.write(new Date().toLocaleDateString()); </script></h1>
 </header>
 
-<p> For details on how to use the PPE Risk Calculators, please click the information icons next to each section header and read the
-  <a href="/PPERisk/COU"> Context of Use (CoU)</a>, which includes limitations of use. Answers to frequently asked questions can be
-  found <a href="/PPERisk/FAQ"> here</a>. </p>
+<p> For details about Material Characteristics, please click on the information icon. </p>
 
 <body>
 
@@ -67,10 +65,15 @@
         <h4 class="modal-title">Material Characteristics</h4>
       </div>
       <div class="modal-body">
-        <p><em>Mean Fiber Diameter Size</em> - Please enter the mean fiber diameter for your material fabric in microns (µm) as reported by DiameterJ's Super Pixel output. If the measurement is not in microns, please convert your input into microns prior to using the calculator.</p>
-        <p><em>Mean Packing Density</em> - Enter the packing density of your material fabric.</p>
-        <p><em>Mean Thickness</em> - Enter the thickness of your material fabric in microns (µm).</p>
-
+        <p><em>Mean Fiber Diameter Size</em> - Please enter the mean fiber diameter for your material fabric in microns
+            (µm) as reported by DiameterJ's Super Pixel output. If the measurement is not in microns, please convert your
+            input into microns prior to using the calculator.</p>
+        <p><em>Mean Packing Density</em> - Packing density is the dimensionless ratio of the volume of the fibers to the
+            volume of the fibrous material. Please see the user guide provided with the Regulatory Science Tool for the
+            equation and parameters to calculate it for your material.</p>
+        <p><em>Mean Thickness</em> -  In the development of this calculator, we measured thickness from cross-sectional
+            SEM images analyzed with Fiji/ImageJ v.1.51w. Please see the user guide provided with the Regulatory Science
+            Tool for the process to calculate it for your material.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -80,8 +83,8 @@
   </div>
 </div>
 
-<h3> PPE Risk assessment </h3>
-Click to screen your PPE material: <button type="submit" id="submit_button">Estimate Log<sub>10</sub> Reduction of Viable Particles</button>
+<h3> Filtration Efficiency Assessment </h3>
+Click to review the results of your material’s filtration efficiency: <button type="submit" id="submit_button">Estimate Log<sub>10</sub> Reduction of Viable Particles</button>
 
 </form>
 <script>

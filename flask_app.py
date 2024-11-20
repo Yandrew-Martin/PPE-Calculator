@@ -21,7 +21,7 @@ from scipy.special import cbrt
 respiratordf = pd.read_csv('respiratordf.csv')
 
 app = Flask(__name__)
-app.config["DEBUG"] = False
+app.config["DEBUG"] = True
 
 #@app.route('/')
 #def home():
