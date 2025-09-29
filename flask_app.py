@@ -68,44 +68,40 @@ def cou():
 def faq():
     return render_template('FAQ.html')
 
-def calculate_H24(df, dp, z, L):
-    B1 = df
-    B2 = dp
-    B4 = z
-    B5 = L
-    B6 = 0.66727
-    B8 = B2 / B1
-    B9 = -0.5 * np.log(B4) - 0.75 + B4 - 0.25 * B4**2
-    B14 = 2 * 0.067 / B1
-    B15 = 1 + B14 * (1.257 + 0.4 * np.exp(-1.1 / B14))
-    B16 = 1 + (2 * 0.067 / B2) * (1.257 + 0.4 * np.exp(-1.1 / (2 * 0.067 / B2)))
-    B12 = (307.15 * B16 * (1.38054 * 10**-23)) / (3 * np.pi * 1.9e-5 * (B2 / 1e6))
-    B11 = (B1 / 1000000) * B6 / B12
-    B13 = (B15 * 993 * (B2 / 1e6)**2 * B6) / (18 * 1.9e-5 * (B1 / 1e6))
-    B17 = 1.6 * (cbrt((1 - B4) / B9)) * (B11**(-2 / 3)) * (1 + 0.388 * B14 * (cbrt(((1 - B4) * B11) / B9)))
-    B18 = 1 + 0.388 * B14 * (cbrt(((1 - B4) * B11) / B9))
-    B20 = 0.6 * (1 + ((1.996 * B14) / B8)) * ((1 - B4) / B9) * ((B8**2) / (1 + B8))
-    B21 = 0.0334 * (B13**(3 / 2))
-    B22 = 1.6 * (cbrt((1 - B4) / B9)) * (B11**(-2 / 3)) * (B18 / (1 + B17))
-    Ks = -0.5 * np.log(B4) - 0.52 + 0.64 * B4 + 1.43 * (1 - B4) * B14
-    B25 = 1.24 * (B8**(2 / 3) / np.sqrt(Ks * B11))
-    B24 = B20 + B21 + B22 + B25
-    D24 = np.exp((-2 * B4 * B24 * B5) / (np.pi * (B1 / 2) * (1 - B4)))
-    D20 = np.exp((-2 * B4 * B20 * B5) / (np.pi * (B1 / 2) * (1 - B4)))
-    D21 = np.exp((-2 * B4 * B21 * B5) / (np.pi * (B1 / 2) * (1 - B4)))
-    D22 = np.exp((-2 * B4 * B22 * B5) / (np.pi * (B1 / 2) * (1 - B4)))
-    D25 = np.exp((-2 * B4 * B25 * B5) / (np.pi * (B1 / 2) * (1 - B4)))
-    F24 = 100 * D24
-    F20 = 100 * D20
-    F21 = 100 * D21
-    F22 = 100 * D22
-    F25 = 100 * D25
-    H24 = 100 - F24
-    H20 = 100 - F20
-    H21 = 100 - F21
-    H22 = 100 - F22
-    H25 = 100 - F25
-    return H24, H20, H21, H22, H25
+def calculate_percentOFE(df, dp, z, L):
+    fiberDiameter = df
+    particleDiameter = dp
+    packingdensity = z
+    thickness = L
+    faceVelocity = 0.66727
+    R = particleDiameter / fiberDiameter
+    kuwabara = -0.5 * np.log(packingdensity) - 0.75 + packingdensity - 0.25 * packingdensity**2
+    knudsen = 2 * 0.067 / fiberDiameter
+    Cu = 1 + knudsen * (1.257 + 0.4 * np.exp(-1.1 / knudsen))
+    Cn = 1 + (2 * 0.067 / particleDiameter) * (1.257 + 0.4 * np.exp(-1.1 / (2 * 0.067 / particleDiameter)))
+    D = (307.15 * Cn * (1.38054 * 10**-23)) / (3 * np.pi * 1.9e-5 * (particleDiameter / 1e6))
+    peclet = (fiberDiameter / 1000000) * faceVelocity / D
+    Stk = (Cu * 993 * (particleDiameter / 1e6)**2 * faceVelocity) / (18 * 1.9e-5 * (fiberDiameter / 1e6))
+    Liu = 1.6 * (cbrt((1 - packingdensity) / kuwabara)) * (peclet**(-2 / 3)) * (1 + 0.388 * knudsen * (cbrt(((1 - packingdensity) * peclet) / kuwabara)))
+    cD = 1 + 0.388 * knudsen * (cbrt(((1 - packingdensity) * peclet) / kuwabara))
+    interception = 0.6 * (1 + ((1.996 * knudsen) / R)) * ((1 - packingdensity) / kuwabara) * ((R**2) / (1 + R))
+    impaction = 0.0334 * (Stk**(3 / 2))
+    diffusion = 1.6 * (cbrt((1 - packingdensity) / kuwabara)) * (peclet**(-2 / 3)) * (cD / (1 + Liu))
+    Ks = -0.5 * np.log(packingdensity) - 0.52 + 0.64 * packingdensity + 1.43 * (1 - packingdensity) * knudsen
+    diffusionInterception = 1.24 * (R**(2 / 3) / np.sqrt(Ks * peclet))
+    overallEfficiency = interception + impaction + diffusion + diffusionInterception
+    OverallFiltrationEfficiency = 1 - np.exp((-2 * packingdensity * overallEfficiency * thickness) / (np.pi * (fiberDiameter / 2) * (1 - packingdensity)))
+    InterceptionFiltrationEfficiency = 1 - np.exp((-2 * packingdensity * interception * thickness) / (np.pi * (fiberDiameter / 2) * (1 - packingdensity)))
+    ImpactionFiltrationEfficiency = 1 - np.exp((-2 * packingdensity * impaction * thickness) / (np.pi * (fiberDiameter / 2) * (1 - packingdensity)))
+    DiffusionFiltrationEfficiency = 1 - np.exp((-2 * packingdensity * diffusion * thickness) / (np.pi * (fiberDiameter / 2) * (1 - packingdensity)))
+    diffusionInterceptionFiltrationEfficiency = 1 - np.exp((-2 * packingdensity * diffusionInterception * thickness) / (np.pi * (fiberDiameter / 2) * (1 - packingdensity)))
+    PercentOFE = 100 * OverallFiltrationEfficiency
+    PercentIntFE = 100 * InterceptionFiltrationEfficiency
+    PercentImpFE = 100 * ImpactionFiltrationEfficiency
+    PercentDifFE = 100 * DiffusionFiltrationEfficiency
+    PercentDiffIntFE = 100 * diffusionInterceptionFiltrationEfficiency
+
+    return PercentOFE, PercentIntFE, PercentImpFE, PercentDifFE, PercentDiffIntFE
 
 def monte_carlo(df, dfsd, z, zsd, L, Lsd):
     num_simulations = 10000
@@ -137,12 +133,12 @@ def monte_carlo(df, dfsd, z, zsd, L, Lsd):
     var4_values_stage6 = np.random.uniform(0.65, 1.1, size=num_simulations)
 
     #calculations at each stage for each mechanism and total
-    results_stage1,int1,imp1,dif1,intdif1 = calculate_H24(var1_values, var4_values_stage1, var2_values, var3_values)
-    results_stage2,int2,imp2,dif2,intdif2 = calculate_H24(var1_values, var4_values_stage2, var2_values, var3_values)
-    results_stage3,int3,imp3,dif3,intdif3 = calculate_H24(var1_values, var4_values_stage3, var2_values, var3_values)
-    results_stage4,int4,imp4,dif4,intdif4 = calculate_H24(var1_values, var4_values_stage4, var2_values, var3_values)
-    results_stage5,int5,imp5,dif5,intdif5 = calculate_H24(var1_values, var4_values_stage5, var2_values, var3_values)
-    results_stage6,int6,imp6,dif6,intdif6 = calculate_H24(var1_values, var4_values_stage6, var2_values, var3_values)
+    results_stage1,int1,imp1,dif1,intdif1 = calculate_percentOFE(var1_values, var4_values_stage1, var2_values, var3_values)
+    results_stage2,int2,imp2,dif2,intdif2 = calculate_percentOFE(var1_values, var4_values_stage2, var2_values, var3_values)
+    results_stage3,int3,imp3,dif3,intdif3 = calculate_percentOFE(var1_values, var4_values_stage3, var2_values, var3_values)
+    results_stage4,int4,imp4,dif4,intdif4 = calculate_percentOFE(var1_values, var4_values_stage4, var2_values, var3_values)
+    results_stage5,int5,imp5,dif5,intdif5 = calculate_percentOFE(var1_values, var4_values_stage5, var2_values, var3_values)
+    results_stage6,int6,imp6,dif6,intdif6 = calculate_percentOFE(var1_values, var4_values_stage6, var2_values, var3_values)
     intercept_total = str(round(100*mean((mean(np.minimum((int1/100),1-(1/5080))),mean(np.minimum((int2/100),1-(1/5080))),mean(np.minimum((int3/100),1-(1/4820))),mean(np.minimum((int4/100),1-(1/6740))),mean(np.minimum((int5/100),1-(1/9596))),mean(np.minimum((int6/100),1-(1/26824))))),2)) + "%"
     impaction_total = str(round(100*mean((mean(np.minimum((imp1/100),1-(1/5080))),mean(np.minimum((imp2/100),1-(1/5080))),mean(np.minimum((imp3/100),1-(1/4820))),mean(np.minimum((imp4/100),1-(1/6740))),mean(np.minimum((imp5/100),1-(1/9596))),mean(np.minimum((imp6/100),1-(1/26824))))),2)) + "%"
     diffusion_total = str(round(100*mean((mean(np.minimum((dif1/100),1-(1/5080))),mean(np.minimum((dif2/100),1-(1/5080))),mean(np.minimum((dif3/100),1-(1/4820))),mean(np.minimum((dif4/100),1-(1/6740))),mean(np.minimum((dif5/100),1-(1/9596))),mean(np.minimum((dif6/100),1-(1/26824))))),2)) + "%"
