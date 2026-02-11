@@ -1,4 +1,9 @@
 """
+Task Two: Gene Homologs
+Created by: Andy Martin
+
+Current Version: v2.1.0
+
 Flask application for mask filtration efficiency analysis.
 Provides Monte Carlo simulation for respirator performance evaluation.
 """
@@ -68,13 +73,13 @@ def mask_calc():
 
     return jsonify(results)
 
-
+# Conditions of Use pageage
 @app.route('/PPERisk/COU')
 def conditions_of_use():
     """Render the Conditions of Use page."""
     return render_template('COU.html')
 
-
+# Frequently Asked Questions page
 @app.route('/PPERisk/FAQ')
 def faq():
     """Render the FAQ page."""
